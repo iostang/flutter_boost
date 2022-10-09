@@ -24,6 +24,7 @@ class _MainPageState extends State<MainPage> {
   GlobalKey<ScaffoldState> key = GlobalKey();
 
   VoidCallback removeListener;
+  VoidCallback logoutListener;
 
   ValueNotifier<bool> withContainer = ValueNotifier(false);
 
@@ -58,12 +59,46 @@ class _MainPageState extends State<MainPage> {
       });
       return;
     });
+
+    logoutListener =
+        BoostChannel.instance.addEventListener("logout", (key, arguments) {
+      cleanAllPage();
+      return;
+    });
+  }
+
+  static cleanAllPage() {
+    var uniqueIds = Set();
+
+    //示例代码 1
+    //如果能支持访问containers的话 就可以把容器内所有的pages都清空了
+    // BoostNavigator.instance?.appState?.containers?.forEach((container) {
+    //   container?.pages?.forEach((page) {
+    //     if (page?.pageInfo?.uniqueId != null) {
+    //       uniqueIds.add(page.pageInfo.uniqueId);
+    //     }
+    //   });
+    // });
+
+    //示例代码 2
+    BoostNavigator.instance?.appState?.topContainer?.pages?.forEach((page) {
+      if (page?.pageInfo?.uniqueId != null) {
+        uniqueIds.add(page.pageInfo.uniqueId);
+      }
+    });
+
+    uniqueIds.forEach((uniqueId) {
+      BoostNavigator.instance.appState?.remove(uniqueId);
+    });
+
+    print("清理所有页面 $uniqueIds");
   }
 
   @override
   void dispose() {
     ///记得解除注册
     removeListener?.call();
+    logoutListener?.call();
     super.dispose();
   }
 
