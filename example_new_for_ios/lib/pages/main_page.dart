@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  static cleanAllPage() {
+  cleanAllPage() {
     var uniqueIds = Set();
 
     //示例代码 1
@@ -81,17 +81,17 @@ class _MainPageState extends State<MainPage> {
     // });
 
     //示例代码 2
-    BoostNavigator.instance?.appState?.topContainer?.pages?.forEach((page) {
-      if (page?.pageInfo?.uniqueId != null) {
-        uniqueIds.add(page.pageInfo.uniqueId);
-      }
-    });
-
-    uniqueIds.forEach((uniqueId) {
-      BoostNavigator.instance.appState?.remove(uniqueId);
-    });
-
-    print("清理所有页面 $uniqueIds");
+    // BoostNavigator.instance?.appState?.topContainer?.pages?.forEach((page) {
+    //   if (page?.pageInfo?.uniqueId != null) {
+    //     uniqueIds.add(page.pageInfo.uniqueId);
+    //   }
+    // });
+    //
+    // uniqueIds.forEach((uniqueId) {
+    //   BoostNavigator.instance.appState?.remove(uniqueId);
+    // });
+    //
+    // print("清理所有页面 $uniqueIds");
   }
 
   @override
